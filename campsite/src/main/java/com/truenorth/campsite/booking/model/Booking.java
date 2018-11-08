@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 import com.truenorth.campsite.campsite.model.Campsite;
 import com.truenorth.campsite.user.model.User;
@@ -19,6 +20,9 @@ public class Booking {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
+	@Version
+	private Long version;
 	
 	@ManyToOne
 	private User user;
@@ -87,14 +91,6 @@ public class Booking {
 		this.campsite = campsite;
 	}
 
-	public String getBookingId() {
-		return identifier;
-	}
-
-	public void setBookingId(String bookingId) {
-		this.identifier = bookingId;
-	}
-	
 	public Long getId() {
 		return id;
 	}
@@ -109,6 +105,22 @@ public class Booking {
 
 	public void setStatus(BookingStatus status) {
 		this.status = status;
+	}
+	
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+	
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
 	}
 	
 }

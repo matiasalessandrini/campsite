@@ -3,7 +3,6 @@ package com.truenorth.campsite.booking.service;
 import java.util.Date;
 import java.util.List;
 
-import com.truenorth.campsite.booking.exception.SpotBookedException;
 import com.truenorth.campsite.booking.model.BookedSpot;
 import com.truenorth.campsite.booking.model.Booking;
 import com.truenorth.campsite.booking.model.Identifier;
@@ -22,6 +21,6 @@ public interface BookingService {
 	
 	void cancelBooking(String identifier) throws BusinessException;
 
-	void persist(Booking booking) throws SpotBookedException;
+	void persist(Booking booking) throws BusinessException;
 
 }

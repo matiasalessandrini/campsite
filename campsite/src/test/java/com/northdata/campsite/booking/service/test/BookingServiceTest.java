@@ -1,6 +1,7 @@
 package com.northdata.campsite.booking.service.test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import com.truenorth.campsite.campsite.model.Campsite;
 import com.truenorth.campsite.campsite.model.CampsiteName;
 import com.truenorth.campsite.campsite.service.CampsiteService;
 import com.truenorth.campsite.date.util.DateUtil;
+import com.truenorth.campsite.exception.BusinessException;
 import com.truenorth.campsite.spot.model.Spot;
 import com.truenorth.campsite.user.model.User;
 import com.truenorth.campsite.user.service.UserService;
@@ -73,9 +75,9 @@ public class BookingServiceTest {
 	}
 
 	@Test(expected = SpotBookedException.class)
-	public void testAddTwoBookingsWithSameSpotAndDate() throws SpotBookedException {
+	public void testAddTwoBookingsWithSameSpotAndDate() throws BusinessException {
 
-		LocalDate now = LocalDate.now();
+		LocalDateTime now = LocalDateTime.now();
 		LocalDate bookingDate = LocalDate.now().plusDays(2);
 	
 		BookedSpot bookedSpot1 = new BookedSpot(spot, DateUtil.asDate(bookingDate));

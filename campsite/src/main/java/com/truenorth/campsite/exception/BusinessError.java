@@ -8,7 +8,8 @@ public enum BusinessError{
 	ERROR_LATE_BOOKING("error.late.booking"), 
 	ERROR_INVALID_IDENTIFIER("error.invalid.identifier"), 
 	ERROR_SPOT_RECENTLY_BOOKED("error.spot.recently.booked"), 
-	ERROR_BOOKING_ALREADY_CANCELLED("error.booking.already.cancelled");
+	ERROR_BOOKING_ALREADY_CANCELLED("error.booking.already.cancelled"), 
+	ERROR_BOOKING_MODIFIED("error.booking.modified");
 	
 	private final String errorMessageCode;
 	

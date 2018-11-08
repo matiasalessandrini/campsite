@@ -11,6 +11,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.persistence.OptimisticLockException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,6 +23,7 @@ import com.truenorth.campsite.booking.depository.BookedSpotRepository;
 import com.truenorth.campsite.booking.depository.BookingRepository;
 import com.truenorth.campsite.booking.depository.BookingStatusRepository;
 import com.truenorth.campsite.booking.exception.BookingCancelledException;
+import com.truenorth.campsite.booking.exception.BookingModifiedException;
 import com.truenorth.campsite.booking.exception.InvalidIdentifierException;
 import com.truenorth.campsite.booking.exception.SpotBookedException;
 import com.truenorth.campsite.booking.model.BookedSpot;
@@ -84,9 +87,8 @@ public class BookingServiceImpl implements BookingService {
 		return createBooking(arrivalDate, departureDate, campsite, user);
 	}
 
-	@Transactional
 	private Identifier createBooking(Date arrivalDate, Date departureDate, Campsite campsite, User user)
-			throws CampsiteFullException, SpotBookedException {
+			throws BusinessException{
 
 		Identifier identifier = new Identifier(generateIdentifier());
 		BookingStatus status = bookingStatusRepository.findOneByCode(BookingStatusEnum.ACTIVE.name());
@@ -99,9 +101,12 @@ public class BookingServiceImpl implements BookingService {
 
 
 	@Override
-	public void persist(Booking booking) throws SpotBookedException {
+	@Transactional
+	public void persist(Booking booking) throws BusinessException {
 		try {
 			bookingRepository.save(booking);
+		} catch (OptimisticLockException ex) {
+			throw new BookingModifiedException();
 		} catch (DataIntegrityViolationException ex) {
 			throw new SpotBookedException();
 		}
@@ -142,9 +147,8 @@ public class BookingServiceImpl implements BookingService {
 		}
 	}
 
-	@Transactional
 	private void modifyBooking(Date arrivalDate, Date departureDate, Booking booking)
-			throws CampsiteFullException, SpotBookedException {
+			throws BusinessException {
 
 		booking.getBookedSpotList().clear();
 		booking.getBookedSpotList().addAll(getBookedSpots(arrivalDate, departureDate, booking));
@@ -153,7 +157,6 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	@Transactional
 	public void cancelBooking(String identifier) throws BusinessException {
 		Booking booking = bookingRepository.findOneByIdentifier(identifier);
 		if (booking != null) {
@@ -161,7 +164,7 @@ public class BookingServiceImpl implements BookingService {
 			BookingStatus status = bookingStatusRepository.findOneByCode(BookingStatusEnum.CANCELLED.name());
 			booking.setStatus(status);
 			booking.setModificationDate(DateUtil.asDate(LocalDateTime.now()));
-			bookingRepository.save(booking);
+			persist(booking);
 		} else {
 			throw new InvalidIdentifierException();
 		}
