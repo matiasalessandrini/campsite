@@ -26,12 +26,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.truenorth.campsite.CampsiteApplication;
-import com.truenorth.campsite.booking.depository.BookingRepository;
-import com.truenorth.campsite.booking.depository.BookingStatusRepository;
 import com.truenorth.campsite.booking.model.BookedSpot;
 import com.truenorth.campsite.booking.model.Booking;
 import com.truenorth.campsite.booking.model.BookingStatus;
 import com.truenorth.campsite.booking.model.BookingStatusEnum;
+import com.truenorth.campsite.booking.repository.BookingRepository;
+import com.truenorth.campsite.booking.repository.BookingStatusRepository;
 import com.truenorth.campsite.campsite.model.Campsite;
 import com.truenorth.campsite.campsite.model.CampsiteName;
 import com.truenorth.campsite.campsite.service.CampsiteService;

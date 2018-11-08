@@ -14,12 +14,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.truenorth.campsite.CampsiteApplication;
-import com.truenorth.campsite.booking.depository.BookingStatusRepository;
 import com.truenorth.campsite.booking.exception.SpotBookedException;
 import com.truenorth.campsite.booking.model.BookedSpot;
 import com.truenorth.campsite.booking.model.Booking;
 import com.truenorth.campsite.booking.model.BookingStatus;
 import com.truenorth.campsite.booking.model.BookingStatusEnum;
+import com.truenorth.campsite.booking.repository.BookingStatusRepository;
 import com.truenorth.campsite.booking.service.BookingService;
 import com.truenorth.campsite.campsite.model.Campsite;
 import com.truenorth.campsite.campsite.model.CampsiteName;
